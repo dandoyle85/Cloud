@@ -25,6 +25,12 @@
   <button onclick="addKeywords()">Add Keywords</button>
   <pre id="add"></pre>
 
+  <h2>Add Keywords (seed mode)</h2>
+  <input id="seed_site" placeholder="Site ID (UUID)">
+  <input id="seed" placeholder="Enter seed keyword (e.g. drone mapping)">
+  <button onclick="addFromSeed()">Expand + Add Keywords</button>
+  <pre id="seedOut"></pre>
+
 <script>
 const BASE = window.location.origin;
 
@@ -47,7 +53,18 @@ async function addKeywords() {
   });
   document.getElementById("add").textContent = await r.text();
 }
+
+async function addFromSeed() {
+  const site_id = document.getElementById("seed_site").value.trim();
+  const seed = document.getElementById("seed").value.trim();
+  if (!site_id || !seed) return alert("Enter both site_id and seed!");
+  const r = await fetch(`${BASE}/api/keywords`, {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({ site_id, seed })
+  });
+  document.getElementById("seedOut").textContent = await r.text();
+}
 </script>
 </body>
 </html>
-
