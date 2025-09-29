@@ -1,17 +1,16 @@
-# PowerHouse — Phase 2.1.0 (WordPress + Auto Mode Skeleton)
+# PowerHouse Auto Publisher Worker
 
-## New
-- WordPress Integration tab (save multiple WP sites with status / export mode / AI scaling)
-- Auto Mode states displayed on Dashboard
-- LocalStorage used as mock DB for quick testing
-- APIs: /api/niches, /api/keywords?seed=..., /api/offers, /api/wp-publish (echo stub)
-- Worker skeleton for future CRON auto-posting
+This Worker runs on a CRON schedule (free in Cloudflare Workers).
 
-## Deploy (Cloudflare Pages)
-- Build command: (leave blank)
-- Output dir: `public`
+## Files
+- `auto-publisher.js` → Worker code
+- `wrangler.toml` → Config (runs every hour)
 
-## Next (Phase 2.1.1)
-- Swap localStorage → Supabase or Cloudflare D1 (real persistence)
-- Implement `/api/wp-publish` to POST to WP REST API with saved site creds
-- Add a Cloudflare Worker with CRON to honor Auto Mode + AI scaling schedules
+## Deploy
+1. Install wrangler:
+   npm install -g wrangler
+
+2. Deploy:
+   wrangler deploy
+
+Cloudflare will now execute the Worker every hour. For now it logs "Would publish" messages.
