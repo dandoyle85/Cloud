@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PowerHouse Sites Test</title>
+  <style>
+    body { background:#1e1e1e; color:#eee; font-family:Arial,sans-serif; padding:20px; }
+    input, select { margin:5px; padding:6px; }
+    button { margin:5px; padding:6px 12px; cursor:pointer; }
+    pre { background:#111; color:#0f0; padding:10px; white-space:pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>🚀 PowerHouse Sites Test</h1>
+
+  <h2>List Sites</h2>
+  <button onclick="listSites()">List Sites</button>
+  <pre id="list"></pre>
+
+  <h2>Add Site</h2>
+  <input id="site_name" placeholder="Site Name">
+  <input id="url" placeholder="WordPress URL">
+  <input id="wp_username" placeholder="WP Username">
+  <input id="wp_app_password" placeholder="WP Application Password">
+  <select id="post_status">
+    <option value="draft">Draft</option>
+    <option value="publish">Publish</option>
+  </select>
+  <select id="export_mode">
+    <option value="dashboard">Dashboard</option>
+    <option value="manual">Manual</option>
+    <option value="auto">Auto</option>
+  </select>
+  <select id="scaling">
+    <option value="calm">Calm</option>
+    <option value="aggressive">Aggressive</option>
+    <option value="insanity">Insanity</option>
+  </select>
+  <button onclick="addSite()">Add Site</button>
+  <pre id="add"></pre>
+
+  <h2>Update Site</h2>
+  <input id="update_id" placeholder="Site ID (uuid)">
+  <input id="update_export" placeholder="Export mode (dashboard/manual/auto)">
+  <input id="update_active" placeholder="Active? true/false">
+  <button onclick="updateSite()">Update Site</button>
+  <pre id="update"></pre>
+
+  <h2>Delete Site</h2>
+  <input id="delete_id" placeholder="Site ID (uuid)">
+  <button onclick="deleteSite()">Delete Site</button>
+  <pre id="delete"></pre>
+
+<script>
+const BASE = window.location.origin; // same domain
+
+async function listSites() {
+  const r = await fetch(BASE + "/api/sites");
+  document.getElementById("list").textContent = await r.text();
+}
+
+async function addSite() {
+  const body = {
+    site_name: document.getElementById("site_name").value,
+    url: document.getElementById("url").value,
+    wp_username: document.getElementById("wp_username").value,
+    wp_app_password: document.getElementById("wp_app_password").value,
+    post_status: document.getElementById("post_status").value,
+    export_mode: document.getElementById("export_mode").value,
+    scaling: document.getElementById("scaling").value,
+    active: true
+  };
+  const r = await fetch(BASE + "/api/sites", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify(body)
+  });
+  document.getElementById("add").textContent = await r.text();
+}
+
+async function updateSite() {
+  const id = document.getElementById("update_id").value;
+  const body = {
+    export: document.getElementById("update_export").value,
+    active: document.getElementById("update_active").value === "true"
+  };
+  const r = await fetch(BASE + "/api/sites/" + id, {
+    method: "PATCH",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify(body)
+  });
+  document.getElementById("update").textContent = await r.text();
+}
+
+async function deleteSite() {
+  const id = document.getElementById("delete_id").value;
+  const r = await fetch(BASE + "/api/sites/" + id, { method: "DELETE" });
+  document.getElementById("delete").textContent = await r.text();
+}
+</script>
+</body>
+</html>
