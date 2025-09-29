@@ -1,1 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PowerHouse Keywords Test</title>
+  <style>
+    body { background:#1e1e1e; color:#eee; font-family:Arial,sans-serif; padding:20px; }
+    input, textarea, select { margin:5px; padding:6px; width:95%; max-width:400px; }
+    button { margin:5px; padding:8px 14px; cursor:pointer; background:#ff4500; border:none; color:#fff; border-radius:5px; }
+    button:hover { background:#e63e00; }
+    pre { background:#111; color:#0f0; padding:10px; white-space:pre-wrap; max-width:600px; }
+  </style>
+</head>
+<body>
+  <h1>🔥 PowerHouse Keywords Test</h1>
+
+  <h2>List Keywords</h2>
+  <input id="list_site" placeholder="Site ID (UUID)">
+  <button onclick="listKeywords()">List Keywords</button>
+  <pre id="list"></pre>
+
+  <h2>Add Keywords (manual)</h2>
+  <input id="add_site" placeholder="Site ID (UUID)">
+  <textarea id="keywords" rows="4" placeholder="Enter keywords, one per line"></textarea>
+  <button onclick="addKeywords()">Add Keywords</button>
+  <pre id="add"></pre>
+
+<script>
+const BASE = window.location.origin;
+
+async function listKeywords() {
+  const site_id = document.getElementById("list_site").value.trim();
+  if (!site_id) return alert("Enter site_id first!");
+  const r = await fetch(`${BASE}/api/keywords?site_id=${site_id}`);
+  document.getElementById("list").textContent = await r.text();
+}
+
+async function addKeywords() {
+  const site_id = document.getElementById("add_site").value.trim();
+  if (!site_id) return alert("Enter site_id first!");
+  const kws = document.getElementById("keywords").value.split("\n").map(s=>s.trim()).filter(Boolean);
+  if (!kws.length) return alert("Enter at least one keyword");
+  const r = await fetch(`${BASE}/api/keywords`, {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({ site_id, keywords: kws })
+  });
+  document.getElementById("add").textContent = await r.text();
+}
+</script>
+</body>
+</html>
 
