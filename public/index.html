@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-  <h1>⚡ PowerHouse MVP - Phase 1</h1>
+  <h1>⚡ PowerHouse MVP - Phase 1.5</h1>
   <section>
     <h2>Hot Niches</h2>
     <ul id="nicheList"></ul>
@@ -16,7 +16,9 @@
     <input type="text" id="seedInput" placeholder="Enter seed keyword" />
     <button onclick="fetchKeywords()">Validate</button>
     <ul id="keywordList"></ul>
-    <pre id="promptBox"></pre>
+    <h3>Generated Prompt</h3>
+    <textarea id="promptBox" readonly></textarea>
+    <button onclick="copyPrompt()">Copy Prompt</button>
   </section>
   <section>
     <h2>Affiliate Offers</h2>

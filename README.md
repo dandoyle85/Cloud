@@ -1,8 +1,9 @@
-# PowerHouse MVP - Phase 1
+# PowerHouse MVP - Phase 1.5
 
-## Structure
-- public/ → frontend (dashboard HTML/CSS/JS)
-- functions/api/ → Cloudflare Pages Functions (backend APIs)
+## New Features
+- Clickable niches: auto-fill and run keyword + offers on click
+- Prompt shows in formatted textarea with copy-to-clipboard
+- Mobile-friendly styles for textarea + UI
 
 ## Deploy
 1. Push repo to GitHub.
