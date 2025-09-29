@@ -1,14 +1,17 @@
-# PowerHouse MVP - Phase 1.8.1
+# PowerHouse — Phase 2.1.0 (WordPress + Auto Mode Skeleton)
 
-## Features
-- Grey background (#1c1c1c) for softer look
-- Burnt orange-red accents (#e5533d)
-- Prompt box redesigned: grey background, orange text, rounded corners, max-width 900px, centered
-- Mobile-friendly improvements
-- Same functionality as Phase 1.8
+## New
+- WordPress Integration tab (save multiple WP sites with status / export mode / AI scaling)
+- Auto Mode states displayed on Dashboard
+- LocalStorage used as mock DB for quick testing
+- APIs: /api/niches, /api/keywords?seed=..., /api/offers, /api/wp-publish (echo stub)
+- Worker skeleton for future CRON auto-posting
 
-## Deploy
-1. Push repo to GitHub.
-2. In Cloudflare Pages, connect the repo.
-3. Build command: leave blank
-4. Output dir: public
+## Deploy (Cloudflare Pages)
+- Build command: (leave blank)
+- Output dir: `public`
+
+## Next (Phase 2.1.1)
+- Swap localStorage → Supabase or Cloudflare D1 (real persistence)
+- Implement `/api/wp-publish` to POST to WP REST API with saved site creds
+- Add a Cloudflare Worker with CRON to honor Auto Mode + AI scaling schedules
