@@ -1,9 +1,10 @@
-# PowerHouse MVP - Phase 1.5
+# PowerHouse MVP - Phase 1.6
 
 ## New Features
-- Clickable niches: auto-fill and run keyword + offers on click
-- Prompt shows in formatted textarea with copy-to-clipboard
-- Mobile-friendly styles for textarea + UI
+- Niche buttons are compact (fit text, not full width)
+- Keyword fallback prompt now requires 10 blog-worthy keyword expansions (AdSense-ready)
+- Each keyword includes blog titles, YouTube Shorts hooks, Pinterest pin ideas
+- Mobile-friendly layout and prompt textarea with copy button
 
 ## Deploy
 1. Push repo to GitHub.
@@ -13,6 +14,6 @@
 5. Deploy. Cloudflare will serve:
    - / → dashboard
    - /api/niches → niches API
-   - /api/keywords → keywords API
+   - /api/keywords → keywords API (new AdSense blog expansion prompt)
    - /api/offers → affiliate offers API
    - /api/chatgpt → AI fallback API
