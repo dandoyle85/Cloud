@@ -1,12 +1,11 @@
-# PowerHouse MVP - Phase 1.8
+# PowerHouse MVP - Phase 1.8.1
 
 ## Features
-- Burnt orange-red UI theme (#e5533d)
-- Hot Niches pull from multiple mock live sources (Google Trends, Reddit, YouTube, Amazon, evergreen)
-- Refresh button + timestamp + manual add niche box
-- Keyword Validator with AdSense-ready prompt for 10 blogs + Shorts + Pins
-- Affiliate Offers dummy integration
-- ChatGPT fallback prompt if OPENAI_KEY not set
+- Grey background (#1c1c1c) for softer look
+- Burnt orange-red accents (#e5533d)
+- Prompt box redesigned: grey background, orange text, rounded corners, max-width 900px, centered
+- Mobile-friendly improvements
+- Same functionality as Phase 1.8
 
 ## Deploy
 1. Push repo to GitHub.

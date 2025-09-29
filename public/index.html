@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-  <h1>⚡ PowerHouse MVP - Phase 1.8</h1>
+  <h1>⚡ PowerHouse MVP - Phase 1.8.1</h1>
   <section>
     <h2>Hot Niches</h2>
     <button onclick="fetchNiches()">🔄 Refresh Niches</button>
@@ -21,7 +21,9 @@
     <button onclick="fetchKeywords()">Validate</button>
     <ul id="keywordList"></ul>
     <h3>Generated Prompt</h3>
-    <textarea id="promptBox" readonly></textarea>
+    <div class="prompt-container">
+      <textarea id="promptBox" readonly></textarea>
+    </div>
     <button onclick="copyPrompt()">Copy Prompt</button>
   </section>
   <section>
