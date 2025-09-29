@@ -5,6 +5,9 @@ async function fetchNiches() {
   list.innerHTML = data.niches
     .map(n => `<li><button class="nicheBtn" onclick="runNiche('${n}')">${n}</button></li>`)
     .join("");
+  // timestamp
+  const now = new Date().toLocaleString();
+  document.getElementById("lastUpdated").innerText = "Last updated: " + now;
 }
 async function runNiche(niche) {
   document.getElementById("seedInput").value = niche;
@@ -28,6 +31,16 @@ async function fetchOffers() {
   const data = await res.json();
   const list = document.getElementById("offerList");
   list.innerHTML = data.offers.map(o => `<li>${o.name} (${o.network}) - ${o.commission}</li>`).join("");
+}
+function addNiche() {
+  const newNiche = document.getElementById("newNicheInput").value.trim();
+  if (newNiche) {
+    const list = document.getElementById("nicheList");
+    const li = document.createElement("li");
+    li.innerHTML = `<button class="nicheBtn" onclick="runNiche('${newNiche}')">${newNiche}</button>`;
+    list.appendChild(li);
+    document.getElementById("newNicheInput").value = "";
+  }
 }
 function copyPrompt() {
   const box = document.getElementById("promptBox");

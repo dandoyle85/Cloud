@@ -6,9 +6,13 @@
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-  <h1>⚡ PowerHouse MVP - Phase 1.6</h1>
+  <h1>⚡ PowerHouse MVP - Phase 1.7</h1>
   <section>
     <h2>Hot Niches</h2>
+    <button onclick="fetchNiches()">🔄 Refresh Niches</button>
+    <small id="lastUpdated"></small><br><br>
+    <input type="text" id="newNicheInput" placeholder="Add a hot niche" />
+    <button onclick="addNiche()">Add</button>
     <ul id="nicheList"></ul>
   </section>
   <section>

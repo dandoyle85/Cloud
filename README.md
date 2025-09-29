@@ -1,10 +1,11 @@
-# PowerHouse MVP - Phase 1.6
+# PowerHouse MVP - Phase 1.7
 
 ## New Features
-- Niche buttons are compact (fit text, not full width)
-- Keyword fallback prompt now requires 10 blog-worthy keyword expansions (AdSense-ready)
-- Each keyword includes blog titles, YouTube Shorts hooks, Pinterest pin ideas
-- Mobile-friendly layout and prompt textarea with copy button
+- Hot Niches now pull from multiple live sources (Google Trends, Reddit, YouTube, Amazon, Udemy, Wikipedia)
+- Evergreen niches refresh dynamically (no hard-coded staleness)
+- Manual "Add Niche" box lets you inject your own ideas
+- Refresh button + timestamp so you know when niches last updated
+- Fallback always ensures at least a list of niches is returned
 
 ## Deploy
 1. Push repo to GitHub.
@@ -13,7 +14,7 @@
 4. Output dir: public
 5. Deploy. Cloudflare will serve:
    - / → dashboard
-   - /api/niches → niches API
-   - /api/keywords → keywords API (new AdSense blog expansion prompt)
+   - /api/niches → niches API (multi-source + fallback)
+   - /api/keywords → keywords API (AdSense blog expansion prompt)
    - /api/offers → affiliate offers API
    - /api/chatgpt → AI fallback API
