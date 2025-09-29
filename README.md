@@ -1,16 +1,20 @@
-# PowerHouse Auto Publisher Worker
+# PowerHouse Phase 2.1.1 Functions
 
-This Worker runs on a CRON schedule (free in Cloudflare Workers).
+This package contains Cloudflare Pages Functions for connecting your Dashboard to Supabase.
 
 ## Files
-- `auto-publisher.js` → Worker code
-- `wrangler.toml` → Config (runs every hour)
+- functions/api/sites.js      → GET all sites, POST new site
+- functions/api/sites/[id].js → PATCH update site, DELETE remove site
 
-## Deploy
-1. Install wrangler:
-   npm install -g wrangler
+## Usage
+1. Place these files into your repo in the exact folder structure shown.
+2. Push to GitHub → Cloudflare Pages will redeploy.
+3. Test:
+   - GET https://YOUR-PAGES-URL/api/sites → should return []
+   - POST with site JSON → inserts row into Supabase
+   - PATCH/DELETE by id → update or remove
 
-2. Deploy:
-   wrangler deploy
-
-Cloudflare will now execute the Worker every hour. For now it logs "Would publish" messages.
+Make sure environment variables are set in Cloudflare Pages Settings:
+- SUPABASE_URL
+- SUPABASE_SERVICE_KEY
+- ENC_SECRET (for future encryption)
