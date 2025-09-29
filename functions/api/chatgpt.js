@@ -5,5 +5,7 @@ export async function onRequest(context) {
       prompt: "Write a 1,000-word SEO blog post on 'drone mapping business' with 5 H2s and 3 affiliate callouts."
     }), {headers: {"Content-Type":"application/json"}});
   }
-  return new Response(JSON.stringify({ status: "ChatGPT integration coming soon." }), {headers: {"Content-Type":"application/json"}});
+  return new Response(JSON.stringify({ status: "ChatGPT integration coming soon." }), {
+    headers: {"Content-Type":"application/json"}
+  });
 }
