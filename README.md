@@ -1,11 +1,12 @@
-# PowerHouse MVP - Phase 1.7.1
+# PowerHouse MVP - Phase 1.8
 
 ## Features
-- Refresh Niches button
-- Last updated timestamp under Hot Niches
-- Add Niche input box (adds a new button)
-- Static fallback niches
-- Keyword Validator & Affiliate Offers same as Phase 1.6
+- Burnt orange-red UI theme (#e5533d)
+- Hot Niches pull from multiple mock live sources (Google Trends, Reddit, YouTube, Amazon, evergreen)
+- Refresh button + timestamp + manual add niche box
+- Keyword Validator with AdSense-ready prompt for 10 blogs + Shorts + Pins
+- Affiliate Offers dummy integration
+- ChatGPT fallback prompt if OPENAI_KEY not set
 
 ## Deploy
 1. Push repo to GitHub.

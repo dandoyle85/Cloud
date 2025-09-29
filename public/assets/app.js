@@ -5,7 +5,6 @@ async function fetchNiches() {
   list.innerHTML = data.niches
     .map(n => `<li><button class="nicheBtn" onclick="runNiche('${n}')">${n}</button></li>`)
     .join("");
-  // timestamp
   const now = new Date().toLocaleString();
   document.getElementById("lastUpdated").innerText = "Last updated: " + now;
 }
