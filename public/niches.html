@@ -1,0 +1,12 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PowerHouse • Hot Niches (Phase 2.3)</title><link rel="stylesheet" href="assets/styles.css"></head>
+<body><header><h1>🔥 PowerHouse Hot Niches <span class="badge">Phase 2.3</span></h1><nav><a class="active" href="/niches.html">Niches</a><a href="/keywords.html">Keywords</a></nav></header>
+<main>
+<section class="panel"><div class="panel-head"><h2>Live Sources</h2><div class="pill-row">
+<span class="pill">Google Trends</span><span class="pill">Reddit</span><span class="pill">YouTube</span><span class="pill">Wikipedia Top</span><span class="pill">Amazon (try)</span><span class="pill">Exploding Topics (try)</span>
+<span class="pill ok" id="lastRun"></span></div></div>
+<div class="actions"><button id="refreshBtn">Refresh Niches</button><input id="siteId" placeholder="Optional: Site ID (UUID) to send niches → keywords"></div></section>
+<section class="panel"><div class="panel-head"><h2>Discovered Niches</h2><div><button id="exportCsv" class="ghost">Export CSV</button></div></div><div id="nicheGrid" class="grid cards"></div></section>
+<section class="panel"><h2>🛠️ Debug Log</h2><pre id="debugLog" class="debug"></pre></section>
+</main><footer><small>Phase 2.3 • Multi-source Niches • © PowerHouse</small></footer>
+<script src="assets/niches.js"></script></body></html>
