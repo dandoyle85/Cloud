@@ -1,1 +1,12 @@
-<!DOCTYPE html><html><head><link rel='stylesheet' href='assets/styles.css'></head><body><h2>Enter Seed</h2><input id='seed'><button id='go'>Expand →</button><script>document.getElementById('go').onclick=()=>{const v=document.getElementById('seed').value.trim();if(v)location='keywords.html?seed='+encodeURIComponent(v);};</script></body></html>
+
+<!DOCTYPE html><html><head>
+<meta charset="UTF-8"><title>Niches</title>
+<link rel="stylesheet" href="assets/styles.css">
+</head><body>
+<header><h1>⚡ PowerHouse</h1><nav><a href="index.html">Home</a> | <a href="keywords.html">Keywords</a></nav><div id="debugToggle">💀</div></header>
+<div id="debugPanel"><pre id="debugLog"></pre></div>
+<main><h2>Enter Seed</h2>
+<input id="seed"><button id="go">Expand →</button>
+<script src="assets/app.js"></script>
+<script>document.getElementById('go').onclick=()=>{const v=document.getElementById('seed').value.trim();if(v)location='keywords.html?seed='+encodeURIComponent(v);};</script>
+</main></body></html>

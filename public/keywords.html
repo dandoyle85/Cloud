@@ -1,1 +1,19 @@
-<!DOCTYPE html><html><head><link rel='stylesheet' href='assets/styles.css'></head><body><h2>Keywords</h2><input id='seed'><button id='expand'>Expand+Fetch</button><div id='status'></div><table id='kwTable' style='display:none;'><thead><tr><th>Keyword</th><th>Vol</th><th>Comp</th><th>CPC Low</th><th>CPC High</th></tr></thead><tbody></tbody></table><script src='assets/keywords.js'></script></body></html>
+
+<!DOCTYPE html><html><head>
+<meta charset="UTF-8"><title>Keywords</title>
+<link rel="stylesheet" href="assets/styles.css">
+</head><body>
+<header><h1>⚡ PowerHouse</h1><nav><a href="index.html">Home</a> | <a href="niches.html">Niches</a></nav><div id="debugToggle">💀</div></header>
+<div id="debugPanel"><pre id="debugLog"></pre></div>
+<main>
+<h2>Keyword Expansion</h2>
+<input id="seed" placeholder="Seed keyword">
+<button id="expand">Expand + Fetch</button>
+<div id="status"></div>
+<table id="kwTable" style="display:none;">
+<thead><tr><th>Keyword</th><th>Vol</th><th>Comp</th><th>CPC Low</th><th>CPC High</th></tr></thead>
+<tbody></tbody></table>
+</main>
+<script src="assets/app.js"></script>
+<script src="assets/keywords.js"></script>
+</body></html>
