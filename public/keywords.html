@@ -1,19 +1,82 @@
 
-<!DOCTYPE html><html><head>
-<meta charset="UTF-8"><title>Keywords</title>
-<link rel="stylesheet" href="assets/styles.css">
-</head><body>
-<header><h1>⚡ PowerHouse</h1><nav><a href="index.html">Home</a> | <a href="niches.html">Niches</a></nav><div id="debugToggle">💀</div></header>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Keywords</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <style>
+    #statusBox {
+      margin-top: 10px;
+      font-weight: bold;
+      padding: 8px;
+      border-radius: 6px;
+      display: none;
+    }
+    #statusBox.ok { background: #1e4620; color: #a5d6a7; }
+    #statusBox.err { background: #5a1a1a; color: #ef9a9a; }
+    header { display:flex; justify-content:space-between; align-items:center; padding:10px 16px; background:#222; }
+    #debugPanel { display:none; position:fixed; bottom:0; left:0; width:100%; height:200px; background:#000; color:#0f0; overflow:auto; border-top:2px solid #d94b2b; font-size:12px; text-align:left; padding:8px; }
+    #debugPanel.show { display:block; }
+    #debugToggle { cursor:pointer; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>⚡ PowerHouse</h1>
+  <nav><a href="index.html">Home</a> | <a href="niches.html">Niches</a></nav>
+  <div id="debugToggle">💀</div>
+</header>
 <div id="debugPanel"><pre id="debugLog"></pre></div>
 <main>
-<h2>Keyword Expansion</h2>
-<input id="seed" placeholder="Seed keyword">
-<button id="expand">Expand + Fetch</button>
-<div id="status"></div>
-<table id="kwTable" style="display:none;">
-<thead><tr><th>Keyword</th><th>Vol</th><th>Comp</th><th>CPC Low</th><th>CPC High</th></tr></thead>
-<tbody></tbody></table>
+  <h2>Keyword Expansion</h2>
+  <input id="seed" placeholder="Seed keyword">
+  <button id="expand">Expand + Fetch</button>
+  <div id="statusBox"></div>
+  <table id="kwTable" style="display:none; margin-top:20px;">
+    <thead><tr><th>Keyword</th><th>Vol</th><th>Comp</th><th>CPC Low</th><th>CPC High</th></tr></thead>
+    <tbody></tbody>
+  </table>
 </main>
-<script src="assets/app.js"></script>
-<script src="assets/keywords.js"></script>
-</body></html>
+<script>
+// Debug toggle
+document.getElementById("debugToggle").addEventListener("click",()=>{
+  document.getElementById("debugPanel").classList.toggle("show");
+});
+
+function showStatus(msg,type){
+  const box=document.getElementById("statusBox");
+  box.textContent=msg;
+  box.className=type;
+  box.style.display="block";
+  setTimeout(()=>{box.style.display="none";},5000);
+}
+
+async function fetchKeywords(seed){
+  showStatus("Fetching…","");
+  const res=await fetch('/api/keywords',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({seed})});
+  const json=await res.json();
+  document.getElementById('debugLog').textContent+=JSON.stringify(json,null,2)+"\n";
+  if(!res.ok || json.error){
+    showStatus("❌ Error: "+(json.error||res.status),"err");
+    return;
+  }
+  const ideas=json.ideas||[];
+  if(ideas.length===0){showStatus("⚠️ No results found","err");return;}
+  const tbody=document.querySelector('#kwTable tbody');tbody.innerHTML="";
+  ideas.forEach(r=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${r.keyword||''}</td><td>${r.volume??''}</td><td>${r.competition??''}</td><td>${r.cpc_low??''}</td><td>${r.cpc_high??''}</td>`;
+    tbody.appendChild(tr);
+  });
+  document.getElementById('kwTable').style.display="table";
+  showStatus("✅ Loaded "+ideas.length+" results for: "+seed,"ok");
+}
+
+document.getElementById("expand").onclick=()=>{
+  const v=document.getElementById("seed").value.trim();
+  if(v) fetchKeywords(v);
+};
+</script>
+</body>
+</html>
