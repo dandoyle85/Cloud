@@ -1,8 +1,16 @@
-# PowerHouse Phase 2.3 — Owner Bundle
-Built: 2025-09-30T09:09:30.927241Z
+# PowerHouse Auto Publisher Worker
 
-Folders:
-- public/niches.html, keywords.html, assets/styles.css, assets/niches.js, assets/keywords.js
-- functions/api/niches.js, functions/api/keywords.js
+This Worker runs on a CRON schedule (free in Cloudflare Workers).
 
-Deploy: upload to your GitHub repo (Cloudflare Pages + Functions). Visit /niches.html then /keywords.html.
+## Files
+- `auto-publisher.js` → Worker code
+- `wrangler.toml` → Config (runs every hour)
+
+## Deploy
+1. Install wrangler:
+   npm install -g wrangler
+
+2. Deploy:
+   wrangler deploy
+
+Cloudflare will now execute the Worker every hour. For now it logs "Would publish" messages.

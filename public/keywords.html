@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>PowerHouse • Keywords (Phase 2.3.6 Full)</title>
+  <title>PowerHouse • Keywords (Fix 2)</title>
   <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
@@ -11,15 +11,28 @@
   <main>
     <section class="panel">
       <h2>Expand Keywords</h2>
-      <input id="siteId" placeholder="Site ID (UUID)">
+
+      <label for="siteSelect">Choose Site:</label>
+      <select id="siteSelect">
+        <option value="">-- Select a site --</option>
+        <option value="add-new">➕ Add New Site</option>
+      </select>
+
       <input id="seed" placeholder="Seed keyword">
       <button id="expandBtn">Expand + Save</button>
     </section>
+
     <section class="panel">
       <h2>Keywords</h2>
-      <table id="kwTable"><thead><tr><th>Keyword</th><th>Source</th><th>Score</th></tr></thead><tbody id="kwBody"></tbody></table>
+      <table id="kwTable">
+        <thead>
+          <tr><th>Keyword</th><th>Source</th><th>Score</th></tr>
+        </thead>
+        <tbody id="kwBody"></tbody>
+      </table>
     </section>
   </main>
+
   <div id="debugPanel" class="debug-panel"><pre id="debugLog"></pre></div>
   <script src="assets/debug.js"></script>
   <script src="assets/keywords.js"></script>
