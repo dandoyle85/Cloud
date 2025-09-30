@@ -1,2 +1,0 @@
-const log=(...a)=>{console.log(...a);document.getElementById('debugLog').textContent+=a.join(' ')+'\n'};
-document.getElementById('debugToggle').onclick=()=>{document.getElementById('debugPanel').classList.toggle('show')};
