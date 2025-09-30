@@ -1,51 +1,49 @@
-export async function onRequest(context) {
-  const { request, env } = context;
-  const url = new URL(request.url);
-  const method = request.method.toUpperCase();
+if (method === 'POST') {
+  const body = await request.json();
+  const { site_id, keywords, seed } = body;
+  if (!site_id) return json({ error: 'site_id required' }, 400);
 
-  const SUPABASE_URL = env.SUPABASE_URL;
-  const SUPABASE_SERVICE_KEY = env.SUPABASE_SERVICE_KEY;
+  let collected = [];
 
-  const rest = (path, init={}) =>
-    fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
-      ...init,
-      headers: {
-        'apikey': SUPABASE_SERVICE_KEY,
-        'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
-        'Content-Type': 'application/json',
-        ...init.headers
-      }
+  // Seed mode
+  if (seed) {
+    const q = encodeURIComponent(seed);
+
+    // Google autocomplete
+    const g = await fetch(`https://suggestqueries.google.com/complete/search?client=firefox&q=${q}`).then(r=>r.json()).catch(()=>null);
+    const gList = Array.isArray(g) ? g[1] : [];
+
+    // YouTube autocomplete
+    const yt = await fetch(`https://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=${q}`).then(r=>r.json()).catch(()=>null);
+    const ytList = Array.isArray(yt) ? yt[1] : [];
+
+    // Reddit search
+    const rd = await fetch(`https://www.reddit.com/search.json?q=${q}&sort=hot&limit=10`, { headers: { 'User-Agent': 'Mozilla/5.0' }}).then(r=>r.json()).catch(()=>null);
+    const rdList = (rd?.data?.children || []).map(p => p.data?.title || "").filter(Boolean);
+
+    collected = [...gList, ...ytList, ...rdList].map(s => String(s).trim()).filter(Boolean);
+  }
+
+  // Manual keywords
+  if (Array.isArray(keywords)) {
+    collected = [...collected, ...keywords];
+  }
+
+  if (!collected.length) {
+    return json({ error: 'No keywords generated' }, 400);
+  }
+
+  // Insert into Supabase
+  const results = [];
+  for (const k of collected) {
+    const ins = await rest('keywords', {
+      method: 'POST',
+      headers: { Prefer: 'resolution=merge-duplicates,return=representation' },
+      body: JSON.stringify({ site_id, keyword: k, created_at: new Date().toISOString() })
     });
-
-  if (method === 'GET') {
-    const site_id = url.searchParams.get('site_id');
-    if (!site_id) return json({ error: 'site_id required' }, 400);
-    const r = await rest(`keywords?site_id=eq.${site_id}&select=*`);
-    return json(await r.json());
+    const out = await ins.json();
+    if (Array.isArray(out) && out[0]) results.push(out[0]);
   }
 
-  if (method === 'POST') {
-    const body = await request.json();
-    const { site_id, keywords } = body;
-    if (!site_id || !Array.isArray(keywords)) {
-      return json({ error: 'site_id and keywords[] required' }, 400);
-    }
-    const inserted = [];
-    for (const k of keywords) {
-      const ins = await rest('keywords', {
-        method: 'POST',
-        headers: { Prefer: 'resolution=merge-duplicates,return=representation' },
-        body: JSON.stringify({ site_id, keyword: k, created_at: new Date().toISOString() })
-      });
-      const out = await ins.json();
-      if (Array.isArray(out) && out[0]) inserted.push(out[0]);
-    }
-    return json({ inserted });
-  }
-
-  return json({ error: 'Method not allowed' }, 405);
-}
-
-function json(data, status=200) {
-  return new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json' }});
+  return json({ inserted: results.length, keywords: results });
 }
