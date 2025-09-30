@@ -1,6 +1,0 @@
-name = "powerhouse-auto"
-main = "auto-publisher.js"
-compatibility_date = "2025-09-29"
-
-[triggers]
-crons = ["0 * * * *"] # every hour
