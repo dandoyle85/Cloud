@@ -3,16 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PowerHouse • Keyword Explorer</title>
+  <title>PowerHouse • Keyword Explorer Debug</title>
   <link rel="stylesheet" href="assets/styles.css" />
 </head>
 <body>
 <header>
-  <h1>🔥 PowerHouse Keyword Explorer <span class="badge">Phase 2.2</span></h1>
+  <h1>🔥 PowerHouse Keyword Explorer <span class="badge">Phase 2.2.1 Debug</span></h1>
   <nav>
     <a href="/">Dashboard</a>
     <a class="active" href="/keywords.html">Keyword Explorer</a>
-    <a href="/test.html">Sites Test</a>
   </nav>
 </header>
 
@@ -22,7 +21,7 @@
     <div class="grid two">
       <div>
         <label>Site ID (UUID)</label>
-        <input id="siteId" placeholder="Paste a site_id from Supabase › sites.id" />
+        <input id="siteId" placeholder="Paste site_id" />
       </div>
       <div>
         <label>AI Scaling</label>
@@ -51,7 +50,7 @@
       <h2>Keywords</h2>
       <div>
         <button id="exportCsv" class="ghost">Export CSV</button>
-        <button id="copyPrompt" class="ghost">Copy ChatGPT Prompt</button>
+        <button id="copyPrompt" class="ghost">Copy Elite Prompt</button>
       </div>
     </div>
     <div class="table-wrap">
@@ -72,10 +71,15 @@
       </table>
     </div>
   </section>
+
+  <section class="panel">
+    <h2>🛠️ Debug Log</h2>
+    <pre id="debugLog" class="debug"></pre>
+  </section>
 </main>
 
 <footer>
-  <small>Phase 2.2 • Grey UI + Burnt Orange • © PowerHouse</small>
+  <small>Phase 2.2.1 • Debug Mode • Grey UI + Burnt Orange • © PowerHouse</small>
 </footer>
 
 <script src="assets/keywords.js"></script>
