@@ -16,14 +16,15 @@
 
 <main>
   <section class="panel">
-    <h2>Validate Keywords</h2>
-    <label>Seed</label>
-    <input id="seed" placeholder="Type or select niche">
+    <h2>Keyword Expansion</h2>
+    <input id="seed" placeholder="Enter seed keyword">
     <button id="expandBtn">Expand + Save</button>
-  </section>
-  <section class="panel">
-    <h3>Keywords</h3>
-    <ul id="kwList"></ul>
+    <table id="kwTable">
+      <thead>
+        <tr><th>Keyword</th><th>Volume</th><th>Competition</th><th>CPC Low</th><th>CPC High</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </section>
 </main>
 
