@@ -27,5 +27,11 @@ document.getElementById('seedSuggestions').addEventListener('change', e => {
   }
 });
 
+// Refresh button for seed suggestions
+document.getElementById('refreshSeedsBtn').addEventListener('click', () => {
+  loadSeedSuggestions();
+  log('Seed suggestions refreshed');
+});
+
 // Load suggestions on page start
 loadSeedSuggestions();
