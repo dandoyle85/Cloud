@@ -1,105 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PowerHouse MVP — Phase 2.1.0</title>
-  <link rel="stylesheet" href="assets/style.css" />
-</head>
-<body>
-  <header>
-    <h1>⚡ PowerHouse — Phase 2.1.0</h1>
-    <nav class="tabs">
-      <button class="tabBtn active" data-tab="dashboard">Dashboard</button>
-      <button class="tabBtn" data-tab="wordpress">WordPress Integration</button>
-    </nav>
-  </header>
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>PowerHouse Dashboard</title>
+<link rel="stylesheet" href="assets/styles.css"></head><body>
 
-  <!-- DASHBOARD -->
-  <main id="dashboard" class="tab active">
-    <section>
-      <h2>Hot Niches</h2>
-      <div class="row">
-        <button class="pill" onclick="fetchNiches()">🔄 Refresh Niches</button>
-        <small id="lastUpdated" class="muted"></small>
-      </div>
-      <div class="row">
-        <input type="text" id="newNicheInput" placeholder="Add a hot niche" />
-        <button class="pill" onclick="addNiche()">Add</button>
-      </div>
-      <ul id="nicheList"></ul>
-    </section>
+<header>
+  <h1>⚡ PowerHouse</h1>
+  <nav><a href="index.html">Home</a><a href="niches.html">Niches</a><a href="keywords.html">Keywords</a></nav>
+  <div id="debugToggle">💀</div>
+</header>
+<div id="debugPanel"><pre id="debugLog"></pre></div>
 
-    <section>
-      <h2>Keyword Validator</h2>
-      <div class="row">
-        <input type="text" id="seedInput" placeholder="Enter seed keyword" />
-        <button class="pill" onclick="fetchKeywords()">Validate</button>
-      </div>
-      <ul id="keywordList"></ul>
-
-      <h3>Generated Prompt</h3>
-      <div class="prompt-container">
-        <textarea id="promptBox" readonly></textarea>
-      </div>
-      <button class="pill" onclick="copyPrompt()">Copy Prompt</button>
-    </section>
-
-    <section>
-      <h2>Affiliate Offers</h2>
-      <ul id="offerList"></ul>
-    </section>
-
-    <section>
-      <h2>Auto Mode Overview</h2>
-      <div id="autoOverview" class="cards"></div>
-    </section>
-  </main>
-
-  <!-- WORDPRESS -->
-  <main id="wordpress" class="tab">
-    <section class="card">
-      <h2>➕ Add WordPress Site</h2>
-      <div class="grid">
-        <label>Site Name<input id="wpName" placeholder="Drone Blog" /></label>
-        <label>WordPress URL<input id="wpUrl" placeholder="https://example.com" /></label>
-        <label>Username / Email<input id="wpUser" placeholder="admin@example.com" /></label>
-        <label>Application Password<input id="wpPass" placeholder="abcd abcd abcd abcd" /></label>
-        <label>Default Post Status
-          <select id="wpStatus">
-            <option value="draft">Draft</option>
-            <option value="publish">Publish</option>
-          </select>
-        </label>
-        <label>Export Mode
-          <select id="wpExport">
-            <option value="dashboard">Dashboard Only</option>
-            <option value="manual">Manual</option>
-            <option value="auto">Auto</option>
-          </select>
-        </label>
-        <label>AI Scaling
-          <select id="wpScaling">
-            <option value="calm">Calm</option>
-            <option value="aggressive">Aggressive</option>
-            <option value="insanity">AI Insanity</option>
-          </select>
-        </label>
-      </div>
-      <button class="pill" onclick="saveWpSite()">Save Site</button>
-      <small class="muted">Tip: WP Admin → Users → Application Passwords → Add New. Paste here.</small>
-    </section>
-
-    <section>
-      <h2>🗂️ Saved Sites</h2>
-      <div id="wpSites" class="cards"></div>
-    </section>
-  </main>
-
-  <footer>
-    <small class="muted">Phase 2.1.0 · Grey UI + Burnt Orange</small>
-  </footer>
-
-  <script src="assets/app.js"></script>
-</body>
-</html>
+<main>
+  <section class="panel"><h2>Welcome</h2><p>Pick Niches → Validate Keywords → Scale</p></section>
+  <section class="panel"><h3>Winner / Loser (coming)</h3><div class="grid"><div class="card">Winner</div><div class="card">Loser</div></div></section>
+</main>
+<script src="assets/app.js"></script></body></html>

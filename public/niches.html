@@ -1,24 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>PowerHouse • Hot Niches (Phase 2.3.6 Full)</title>
-  <link rel="stylesheet" href="assets/styles.css">
-</head>
-<body>
-  <!--#include file="header.html" -->
-  <main>
-    <section class="panel">
-      <div class="panel-head">
-        <h2>Discovered Niches</h2>
-        <div><button id="refreshBtn">Refresh Niches</button></div>
-      </div>
-      <div id="nicheGrid" class="grid cards"></div>
-    </section>
-  </main>
-  <div id="debugPanel" class="debug-panel"><pre id="debugLog"></pre></div>
-  <script src="assets/debug.js"></script>
-  <script src="assets/app.js"></script>
-</body>
-</html>
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>PowerHouse Niches</title>
+<link rel="stylesheet" href="assets/styles.css"></head><body>
+
+<header>
+  <h1>⚡ PowerHouse</h1>
+  <nav><a href="index.html">Home</a><a href="niches.html">Niches</a><a href="keywords.html">Keywords</a></nav>
+  <div id="debugToggle">💀</div>
+</header>
+<div id="debugPanel"><pre id="debugLog"></pre></div>
+
+<main>
+  <section class="panel"><h2>Hot Niches</h2><button id="refreshNichesBtn">🔄 Refresh</button><div id="nicheGrid" class="grid"></div></section>
+  <section class="panel"><h3>Add Niche</h3><input id="nicheInput" placeholder="e.g. drone mapping"><button id="addNicheBtn">Add</button></section>
+</main>
+<script src="assets/app.js"></script><script src="assets/niches.js"></script></body></html>
