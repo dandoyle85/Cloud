@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PowerHouse • Keyword Explorer Debug</title>
+  <title>PowerHouse • Keyword Explorer Fallback</title>
   <link rel="stylesheet" href="assets/styles.css" />
 </head>
 <body>
 <header>
-  <h1>🔥 PowerHouse Keyword Explorer <span class="badge">Phase 2.2.1 Debug</span></h1>
+  <h1>🔥 PowerHouse Keyword Explorer <span class="badge">Phase 2.2.2</span></h1>
   <nav>
     <a href="/">Dashboard</a>
     <a class="active" href="/keywords.html">Keyword Explorer</a>
@@ -24,25 +24,14 @@
         <input id="siteId" placeholder="Paste site_id" />
       </div>
       <div>
-        <label>AI Scaling</label>
-        <select id="scaling">
-          <option value="calm">Calm</option>
-          <option value="aggressive">Aggressive</option>
-          <option value="insanity">AI Insanity</option>
-        </select>
-      </div>
-    </div>
-    <div class="grid two">
-      <div>
         <label>Seed Keyword</label>
         <input id="seed" placeholder="e.g., drone mapping" />
       </div>
-      <div class="actions">
-        <button id="expandBtn">Expand + Save</button>
-        <button id="listBtn" class="ghost">List Existing</button>
-      </div>
     </div>
-    <p class="muted" id="lastRun"></p>
+    <div class="actions">
+      <button id="expandBtn">Expand + Save</button>
+      <button id="listBtn" class="ghost">List Existing</button>
+    </div>
   </section>
 
   <section class="panel">
@@ -57,16 +46,14 @@
       <table id="kwTable">
         <thead>
           <tr>
-            <th><input type="checkbox" id="checkAll" /></th>
             <th>Keyword</th>
             <th>Source</th>
             <th>Score</th>
-            <th>Titles</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody id="kwBody">
-          <tr class="muted-row"><td colspan="6">No keywords yet. Try seed above.</td></tr>
+          <tr class="muted-row"><td colspan="4">No keywords yet. Try seed above.</td></tr>
         </tbody>
       </table>
     </div>
@@ -79,7 +66,7 @@
 </main>
 
 <footer>
-  <small>Phase 2.2.1 • Debug Mode • Grey UI + Burnt Orange • © PowerHouse</small>
+  <small>Phase 2.2.2 • Fallback Save Mode • Grey UI + Burnt Orange • © PowerHouse</small>
 </footer>
 
 <script src="assets/keywords.js"></script>
