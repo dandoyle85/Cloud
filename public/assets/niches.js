@@ -1,4 +1,0 @@
-async function loadNiches(){try{const r=await fetch('/api/niches');const d=await r.json();const g=document.getElementById('nicheGrid');g.innerHTML='';d.niches.forEach(n=>{const c=document.createElement('div');c.className='card';c.textContent=n;c.onclick=()=>location.href='keywords.html?seed='+encodeURIComponent(n);g.appendChild(c);});log('Niches loaded',d);}catch(e){log('Niche error',e.message)}};
-document.getElementById('refreshNichesBtn').onclick=loadNiches;
-document.getElementById('addNicheBtn').onclick=async()=>{const v=document.getElementById('nicheInput').value;await fetch('/api/niches',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:v})});loadNiches()};
-document.addEventListener('DOMContentLoaded',loadNiches);
