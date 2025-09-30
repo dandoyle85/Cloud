@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PowerHouse Niches</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header>
+    <h1>🔥 PowerHouse Niches</h1>
+    <div id="debugToggle">💀</div>
+  </header>
+
+  <main>
+    <section>
+      <h2>Hot Niches</h2>
+      <button onclick="fetchNiches()">🔄 Refresh Niches</button>
+      <ul id="nicheList"></ul>
+    </section>
+
+    <section>
+      <h2>Add Niche</h2>
+      <input id="nicheInput" placeholder="Enter new niche">
+      <button onclick="addNiche()">➕ Add</button>
+    </section>
+  </main>
+
+  <div id="debugPanel"><pre id="debugLog"></pre></div>
+
+  <script src="assets/app.js"></script>
+  <script src="assets/niche.js"></script>
+</body>
+</html>

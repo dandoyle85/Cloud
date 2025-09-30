@@ -3,24 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <title>PowerHouse Keywords</title>
-  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-  <main class="dashboard tab active">
-    <h1>⚡ PowerHouse – Keywords</h1>
+  <header>
+    <h1>⚡ PowerHouse Keywords</h1>
+    <div id="debugToggle">💀</div>
+  </header>
 
+  <main>
     <section>
       <h2>Expand Keywords</h2>
-      <label for="siteId">Site ID (UUID):</label>
-      <input id="siteId" placeholder="Enter Site ID">
+      <label for="siteDropdown">Select Site:</label>
+      <select id="siteDropdown">
+        <option value="">-- Select Site --</option>
+      </select>
 
       <label for="seedSuggestions">Suggested Seeds:</label>
       <select id="seedSuggestions">
         <option value="">-- Suggested Seeds --</option>
       </select>
-      <button id="refreshSeedsBtn" style="margin-left:10px;">🔄 Refresh Seeds</button>
+      <button id="refreshSeedsBtn">🔄 Refresh Seeds</button>
 
-      <input id="seed" placeholder="Or type your own" style="margin-top:12px;">
+      <input id="seed" placeholder="Or type your own">
       <button id="expandBtn">Expand + Save</button>
     </section>
 
@@ -32,8 +37,6 @@
             <th>Keyword</th>
             <th>Source</th>
             <th>Score</th>
-            <th>Titles</th>
-            <th>Actions</th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -41,12 +44,15 @@
     </section>
 
     <section>
-      <h2>💀 Debug Log</h2>
-      <pre id="debugLog"></pre>
+      <h2>AI Auto Mode</h2>
+      <input type="range" min="0" max="2" value="0" id="aiSlider">
+      <p id="aiModeLabel">Calm</p>
     </section>
   </main>
+
+  <div id="debugPanel"><pre id="debugLog"></pre></div>
+
   <script src="assets/app.js"></script>
-  <script src="assets/niche.js"></script>
   <script src="assets/keywords.js"></script>
 </body>
 </html>
