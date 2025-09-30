@@ -1,16 +1,59 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PowerHouse • Keyword Explorer (Phase 2.3)</title><link rel="stylesheet" href="assets/styles.css"></head>
-<body><header><h1>🔥 PowerHouse Keyword Explorer <span class="badge">Phase 2.3</span></h1><nav><a href="/niches.html">Niches</a><a class="active" href="/keywords.html">Keywords</a></nav></header>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>PowerHouse • Keyword Explorer (Phase 2.3.4)</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<header>
+  <h1>🔥 PowerHouse Keyword Explorer <span class="badge">Phase 2.3.4</span></h1>
+  <nav>
+    <a href="/niches.html">Niches</a>
+    <a class="active" href="/keywords.html">Keywords</a>
+  </nav>
+</header>
 <main>
-<section class="panel"><h2>Seed → Long‑Tail</h2><div class="grid two">
-<div><label>Site ID (UUID)</label><input id="siteId" placeholder="Paste site_id"></div>
-<div><label>Seed Keyword</label><input id="seed" placeholder="e.g., drone mapping"></div></div>
-<div class="actions"><button id="expandBtn">Expand + Save</button><button id="listBtn" class="ghost">List Existing</button></div></section>
-<section class="panel"><div class="panel-head"><h2>Keywords</h2>
-<div id="resultsCounter" class="counter">Results → <span id="liveCount" class="clickable">Live: 0</span> | <span id="fallbackCount" class="clickable">Fallback: 0</span></div>
-<div><button id="exportCsv" class="ghost">Export CSV</button><button id="copyPrompt" class="ghost">Copy Elite Prompt</button></div></div>
-<div class="table-wrap"><table id="kwTable"><thead><tr><th>Keyword</th><th>Source</th><th>Score</th><th>Actions</th></tr></thead>
-<tbody id="kwBody"><tr class="muted-row"><td colspan="4">No keywords yet. Try seed above.</td></tr></tbody></table></div></section>
-<section class="panel"><h2>🛠️ Debug Log</h2><pre id="debugLog" class="debug"></pre></section>
-</main><footer><small>Phase 2.3 • Deeper Expansion • © PowerHouse</small></footer>
-<script src="assets/keywords.js"></script></body></html>
+  <section class="panel">
+    <h2>Filters</h2>
+    <div id="kwFilterBar" class="filter-bar">
+      <label><input type="checkbox" value="google"> 🟩 Google</label>
+      <label><input type="checkbox" value="youtube"> 🟦 YouTube</label>
+      <label><input type="checkbox" value="reddit"> 🟥 Reddit</label>
+      <label><input type="checkbox" value="modifier"> 🟧 Modifier</label>
+      <label><input type="checkbox" value="paa_try"> 🟪 PAA</label>
+      <label><input type="checkbox" value="related_try"> 🟨 Related</label>
+      <label><input type="checkbox" value="fallback"> 🟠 Fallback</label>
+    </div>
+  </section>
+  <section class="panel">
+    <h2>Seed → Long‑Tail</h2>
+    <div class="grid two">
+      <div><label>Site ID (UUID)</label><input id="siteId" placeholder="Paste site_id"></div>
+      <div><label>Seed Keyword</label><input id="seed" placeholder="e.g., drone mapping"></div>
+    </div>
+    <div class="actions"><button id="expandBtn">Expand + Save</button><button id="listBtn" class="ghost">List Existing</button></div>
+  </section>
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Keywords</h2>
+      <div id="resultsCounter" class="counter">Results: 0</div>
+      <div><button id="exportCsv" class="ghost">Export CSV</button></div>
+    </div>
+    <div class="table-wrap">
+      <table id="kwTable">
+        <thead><tr><th>Keyword</th><th>Source</th><th>Score</th><th>Actions</th></tr></thead>
+        <tbody id="kwBody"><tr class="muted-row"><td colspan="4">No keywords yet. Try seed above.</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+  <section class="panel">
+    <h2>🛠️ Debug Log</h2>
+    <pre id="debugLog" class="debug"></pre>
+  </section>
+</main>
+<footer><small>Phase 2.3.4 • Smart CSV Export • © PowerHouse</small></footer>
+<script src="assets/keywords.js"></script>
+</body>
+</html>
