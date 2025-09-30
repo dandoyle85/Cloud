@@ -1,4 +1,4 @@
-:root{--bg:#1c1c1c;--fg:#f5f5f5;--muted:#9aa0a6;--accent:#ff6a33;}
+:root{--bg:#1c1c1c;--fg:#f5f5f5;--muted:#9aa0a6;--accent:#ff6a33;--green:#22c55e;}
 body{background:#181818;color:var(--fg);font-family:Arial,sans-serif;margin:0}
 header{display:flex;justify-content:space-between;align-items:center;padding:18px;background:#171717}
 h1{margin:0;font-size:20px}.badge{background:var(--accent);color:#000;padding:2px 8px;border-radius:999px}
@@ -17,4 +17,7 @@ tbody td{padding:10px;border-bottom:1px solid #242424}
 .muted-row td{text-align:center;color:#757575;padding:20px}
 .badge-fallback{background:#ff6a33;color:#000;padding:2px 6px;border-radius:6px;font-size:11px}
 .badge-live{background:#22c55e;color:#000;padding:2px 6px;border-radius:6px;font-size:11px}
+.counter{font-size:14px;font-weight:bold;margin-bottom:8px;color:var(--muted)}
+.clickable{cursor:pointer}
+.clickable.active{text-decoration:underline;color:#fff}
 .debug{background:#111;color:#0f0;font-size:12px;max-height:200px;overflow:auto;padding:10px;border-radius:10px}
