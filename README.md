@@ -1,19 +1,8 @@
-# PowerHouse Phase 2.2 — Keyword Explorer (Sexy UI)
-Date: 2025-09-30T00:31:04.826603Z
+# PowerHouse Phase 2.3 — Owner Bundle
+Built: 2025-09-30T09:09:30.927241Z
 
-## Files
-- public/keywords.html       – new page
-- public/assets/styles.css    – dark grey + burnt orange theme
-- public/assets/keywords.js   – fetch, render, CSV export, copy ChatGPT prompt
-- functions/api/keywords/[id].js – PATCH a single keyword (e.g., save chosen title)
+Folders:
+- public/niches.html, keywords.html, assets/styles.css, assets/niches.js, assets/keywords.js
+- functions/api/niches.js, functions/api/keywords.js
 
-## How to deploy
-1) Drop `public/` and `functions/` into your repo (keep existing files).
-2) Commit → Cloudflare redeploys.
-3) Visit `/keywords.html`.
-
-## Notes
-- Uses existing `/api/keywords` endpoint (GET/POST already in your project).
-- PATCH endpoint added: `/api/keywords/:id` to update JSON fields like `titles`.
-- No paid APIs. Seed expansion happens server-side (autocomplete + Reddit) you already enabled.
-
+Deploy: upload to your GitHub repo (Cloudflare Pages + Functions). Visit /niches.html then /keywords.html.
