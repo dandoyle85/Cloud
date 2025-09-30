@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PowerHouse Dashboard</title>
+  <title>PowerHouse Niches</title>
   <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
@@ -14,12 +14,15 @@
 </header>
 <div id="debugPanel"><pre id="debugLog"></pre></div>
 
-<main class="panel">
-  <h2>Welcome</h2>
-  <p>Foundation ready. This is Phase 0 + 1.</p>
-  <p>Use the Niches tab to explore live niches.</p>
+<main>
+  <section class="panel">
+    <h2>Hot Niches</h2>
+    <button id="refreshNichesBtn">🔄 Refresh Niches</button>
+    <div id="nicheGrid" class="grid"></div>
+  </section>
 </main>
 
 <script src="assets/app.js"></script>
+<script src="assets/niches.js"></script>
 </body>
 </html>
