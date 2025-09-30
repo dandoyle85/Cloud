@@ -1,20 +1,19 @@
-# PowerHouse Phase 2.1.1 Functions
-
-This package contains Cloudflare Pages Functions for connecting your Dashboard to Supabase.
+# PowerHouse Phase 2.2 — Keyword Explorer (Sexy UI)
+Date: 2025-09-30T00:31:04.826603Z
 
 ## Files
-- functions/api/sites.js      → GET all sites, POST new site
-- functions/api/sites/[id].js → PATCH update site, DELETE remove site
+- public/keywords.html       – new page
+- public/assets/styles.css    – dark grey + burnt orange theme
+- public/assets/keywords.js   – fetch, render, CSV export, copy ChatGPT prompt
+- functions/api/keywords/[id].js – PATCH a single keyword (e.g., save chosen title)
 
-## Usage
-1. Place these files into your repo in the exact folder structure shown.
-2. Push to GitHub → Cloudflare Pages will redeploy.
-3. Test:
-   - GET https://YOUR-PAGES-URL/api/sites → should return []
-   - POST with site JSON → inserts row into Supabase
-   - PATCH/DELETE by id → update or remove
+## How to deploy
+1) Drop `public/` and `functions/` into your repo (keep existing files).
+2) Commit → Cloudflare redeploys.
+3) Visit `/keywords.html`.
 
-Make sure environment variables are set in Cloudflare Pages Settings:
-- SUPABASE_URL
-- SUPABASE_SERVICE_KEY
-- ENC_SECRET (for future encryption)
+## Notes
+- Uses existing `/api/keywords` endpoint (GET/POST already in your project).
+- PATCH endpoint added: `/api/keywords/:id` to update JSON fields like `titles`.
+- No paid APIs. Seed expansion happens server-side (autocomplete + Reddit) you already enabled.
+
