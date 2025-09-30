@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>PowerHouse • Keywords (Fix 2)</title>
+  <title>PowerHouse • Keywords (Fix 3)</title>
   <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
@@ -18,7 +18,11 @@
         <option value="add-new">➕ Add New Site</option>
       </select>
 
-      <input id="seed" placeholder="Seed keyword">
+      <small style="display:block;margin-top:6px;color:#aaa;">
+        Your sites are saved in Supabase. Add one if this list is empty.
+      </small>
+
+      <input id="seed" placeholder="Seed keyword" style="margin-top:12px;">
       <button id="expandBtn">Expand + Save</button>
     </section>
 
