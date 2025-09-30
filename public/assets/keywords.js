@@ -1,186 +1,22 @@
 const BASE = window.location.origin;
-const els = {
-  siteId: document.getElementById('siteId'),
-  scaling: document.getElementById('scaling'),
-  seed: document.getElementById('seed'),
-  expandBtn: document.getElementById('expandBtn'),
-  listBtn: document.getElementById('listBtn'),
-  lastRun: document.getElementById('lastRun'),
-  kwBody: document.getElementById('kwBody'),
-  checkAll: document.getElementById('checkAll'),
-  exportCsv: document.getElementById('exportCsv'),
-  copyPrompt: document.getElementById('copyPrompt')
-};
+const logEl = document.getElementById('debugLog');
 
-let currentKeywords = []; // array of {id, site_id, keyword, titles?, source?}
-let lastSourceMap = {};   // keyword -> source
+function log(msg,obj){const line=`[${new Date().toLocaleString()}] ${msg}`;logEl.textContent=line+"\n"+logEl.textContent;if(obj) logEl.textContent=JSON.stringify(obj,null,2)+"\n"+logEl.textContent;}
+function toast(msg,type='ok'){const el=document.createElement('div');el.textContent=msg;el.className=`toast ${type}`;document.body.appendChild(el);setTimeout(()=>el.classList.add('show'),10);setTimeout(()=>{el.remove()},3000);}
 
-els.expandBtn.addEventListener('click', async () => {
-  const site_id = els.siteId.value.trim();
-  const seed = els.seed.value.trim();
-  if (!site_id || !seed) return toast('Enter site_id and seed', 'warn');
+const els={siteId:document.getElementById('siteId'),seed:document.getElementById('seed'),expandBtn:document.getElementById('expandBtn'),listBtn:document.getElementById('listBtn'),lastRun:document.getElementById('lastRun'),kwBody:document.getElementById('kwBody'),exportCsv:document.getElementById('exportCsv'),copyPrompt:document.getElementById('copyPrompt')};
 
-  setLoading(true, 'Expanding seed and saving...');
-  const r = await fetch(`${BASE}/api/keywords`, {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({ site_id, seed })
-  });
-  const data = await r.json().catch(()=>({}));
-  setLoading(false);
+els.expandBtn.addEventListener('click',async()=>{const site_id=els.siteId.value.trim();const seed=els.seed.value.trim();if(!site_id||!seed)return toast('Enter site_id + seed','warn');log('Expanding seed',{site_id,seed});const r=await fetch(`${BASE}/api/keywords`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({site_id,seed})});const data=await r.json().catch(()=>({}));if(!r.ok){toast(data.error||'Expand failed','err');log('Expand failed',data);showFallback(seed);return;}toast(`Expanded ${data.inserted} keywords`);log('Expand success',data);els.lastRun.textContent=`Last saved: ${new Date().toLocaleString()}`;currentKeywords=data.keywords||[];renderTable();});
 
-  if (!r.ok) return toast(data.error || 'Failed expanding', 'err');
+els.listBtn.addEventListener('click',listKeywords);els.exportCsv.addEventListener('click',()=>exportCSV(currentKeywords));els.copyPrompt.addEventListener('click',copyElitePrompt);
 
-  // after save, list again
-  await listKeywords();
-  els.lastRun.textContent = `Last saved ${new Date().toLocaleString()}`;
-});
+let currentKeywords=[];
+async function listKeywords(){const site_id=els.siteId.value.trim();if(!site_id)return;const r=await fetch(`${BASE}/api/keywords?site_id=${encodeURIComponent(site_id)}`);const data=await r.json().catch(()=>({}));if(!r.ok){toast('List failed','err');log('List failed',data);return;}currentKeywords=data.keywords||data||[];log('Listed keywords',currentKeywords);renderTable();}
 
-els.listBtn.addEventListener('click', listKeywords);
-els.exportCsv.addEventListener('click', () => exportCSV(currentKeywords));
-els.copyPrompt.addEventListener('click', copyPrompt);
-els.checkAll.addEventListener('change', e => {
-  document.querySelectorAll('tbody input[type="checkbox"]').forEach(cb => cb.checked = e.target.checked);
-});
+function renderTable(){if(!currentKeywords.length){els.kwBody.innerHTML='<tr class="muted-row"><td colspan="6">No keywords yet</td></tr>';return;}const html=currentKeywords.map(k=>`<tr><td><input type="checkbox"></td><td>${k.keyword}</td><td>${k.source||'Mixed'}</td><td>🔥</td><td>-</td><td><button class="ghost">Save</button></td></tr>`).join('');els.kwBody.innerHTML=html;}
 
-async function listKeywords() {
-  const site_id = els.siteId.value.trim();
-  if (!site_id) return toast('Enter site_id first','warn');
-  setLoading(true, 'Loading keywords...');
-  const r = await fetch(`${BASE}/api/keywords?site_id=${encodeURIComponent(site_id)}`);
-  const j = await r.json().catch(()=>({keywords:[]}));
-  setLoading(false);
-  currentKeywords = (j.keywords || j) || [];
-  renderTable(currentKeywords);
-}
+function exportCSV(rows){if(!rows.length)return toast('Nothing to export','warn');const lines=['keyword'];rows.forEach(r=>lines.push(r.keyword));const blob=new Blob([lines.join('\n')],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`keywords_${Date.now()}.csv`;a.click();}
 
-function renderTable(rows) {
-  if (!rows.length) {
-    els.kwBody.innerHTML = `<tr class="muted-row"><td colspan="6">No keywords yet. Try seed above.</td></tr>`;
-    return;
-  }
-  const html = rows.map(row => {
-    const kw = row.keyword || '';
-    const source = row.source?.origin || inferSourceFromKeyword(kw);
-    const score = scoreKeyword(kw);
-    const fires = '🔥'.repeat(Math.max(1, Math.min(5, Math.round(score/2))));
-    const titles = suggestTitles(kw);
-    const titlesHtml = titles.map(t => `<span class="pill" data-id="${row.id}" data-title="${escapeHtml(t)}">${escapeHtml(t)}</span>`).join('');
-    return `<tr>
-      <td><input type="checkbox" data-id="${row.id}"></td>
-      <td><div>${escapeHtml(kw)}</div><div class="src">${source}</div></td>
-      <td>${source}</td>
-      <td class="score"><span class="fire">${fires}</span> <small>${score}/10</small></td>
-      <td><div class="title-pills">${titlesHtml}</div></td>
-      <td>
-        <button class="ghost" data-action="save" data-id="${row.id}">Save</button>
-      </td>
-    </tr>`;
-  }).join('');
-  els.kwBody.innerHTML = html;
+function copyElitePrompt(){const seed=els.seed.value.trim()||'YOUR SEED';const prompt=`You are a world-class SEO strategist, growth hacker, and digital empire builder.\nExpand the seed keyword: "${seed}" into 25+ long-tail keywords with:\n• high traffic potential (≥ 1,000/mo)\n• low competition\n• strong monetization intent (best, top, review, 2025, software)\nFor each keyword, return JSON ONLY:\n[\n { "keyword":"...", "volume":0, "competition":"low", "intent":"commercial",\n   "titles":["SEO title 1","SEO title 2"], "shorts":["YT Short idea"], "pins":["Pinterest idea"] }\n]\nDo not include explanations.`;navigator.clipboard.writeText(prompt);toast('Elite prompt copied','ok');log('Elite prompt',prompt);}
 
-  // add listeners to pills & save buttons
-  els.kwBody.querySelectorAll('.title-pills .pill').forEach(p => {
-    p.addEventListener('click', async e => {
-      const id = e.target.getAttribute('data-id');
-      const title = e.target.getAttribute('data-title');
-      await patchKeyword(id, { titles: [title] });
-      toast('Title saved to keyword');
-    });
-  });
-  els.kwBody.querySelectorAll('button[data-action="save"]').forEach(btn => {
-    btn.addEventListener('click', async e => {
-      const id = e.target.getAttribute('data-id');
-      await patchKeyword(id, {});
-      toast('Keyword saved');
-    });
-  });
-}
-
-async function patchKeyword(id, payload) {
-  // PATCH /api/keywords/[id]  with body payload (e.g., {titles:[...]})
-  const r = await fetch(`${BASE}/api/keywords/${id}`, {
-    method: 'PATCH',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify(payload || {})
-  });
-  if (!r.ok) {
-    const t = await r.text();
-    console.warn('Patch failed', t);
-  }
-}
-
-function scoreKeyword(k) {
-  let s = 0;
-  const len = k.length;
-  s += (len < 18) ? 2 : (len < 35 ? 3 : 4);   // favor long-tail
-  if (/\b(best|review|software|pricing|2025|top)\b/i.test(k)) s += 3;
-  if (/\bhow to|guide|tips|ideas|examples\b/i.test(k)) s += 2;
-  if (/\blocal|near me|chicago|guide\b/i.test(k)) s += 1;
-  s = Math.max(1, Math.min(10, s));
-  return s;
-}
-
-function suggestTitles(k) {
-  return [
-    `10 ${titleCase(k)} Ideas That Work`,
-    `${titleCase(k)}: Complete Beginner’s Guide`,
-    `${titleCase(k)} in 2025: What Actually Works`
-  ];
-}
-
-function inferSourceFromKeyword(k){ return 'Mixed'; }
-function titleCase(s){ return s.replace(/\w\S*/g, t=>t[0].toUpperCase()+t.slice(1)); }
-function escapeHtml(s){ return String(s).replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
-
-function exportCSV(rows){
-  if (!rows.length) return toast('Nothing to export','warn');
-  const headers = ['keyword','score'];
-  const lines = [headers.join(',')];
-  rows.forEach(r => {
-    lines.push(`"${(r.keyword||'').replace(/"/g,'""')}",${scoreKeyword(r.keyword||'')}`);
-  });
-  const blob = new Blob([lines.join('\n')], {type:'text/csv'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `keywords_${Date.now()}.csv`;
-  a.click();
-}
-
-function copyPrompt(){
-  const seed = els.seed.value.trim() || 'YOUR SEED';
-  const prompt = `You are a keyword strategist. Expand the seed "${seed}" into 20 long-tail, low-competition keywords and provide for each: keyword, intent (informational|commercial|transactional), and an SEO-friendly blog title. Return JSON ONLY with fields: keyword, intent, title.`;
-  navigator.clipboard.writeText(prompt);
-  toast('Copied ChatGPT prompt');
-}
-
-function setLoading(state, msg){
-  if (state) {
-    els.expandBtn.disabled = true;
-    els.listBtn.disabled = true;
-    els.expandBtn.textContent = 'Working...';
-    if (msg) toast(msg);
-  } else {
-    els.expandBtn.disabled = false;
-    els.listBtn.disabled = false;
-    els.expandBtn.textContent = 'Expand + Save';
-  }
-}
-
-function toast(msg, type='ok'){
-  const el = document.createElement('div');
-  el.textContent = msg;
-  el.className = `toast ${type}`;
-  document.body.appendChild(el);
-  setTimeout(()=> el.classList.add('show'), 10);
-  setTimeout(()=> { el.classList.remove('show'); el.remove(); }, 2400);
-}
-
-// simple toast styles
-const style = document.createElement('style');
-style.textContent = `.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#272727;color:#fff;border:1px solid #3a3a3a;padding:10px 14px;border-radius:10px;opacity:0;transition:.2s;z-index:9999}
-.toast.show{opacity:1}
-.toast.ok{border-color:#22c55e}
-.toast.warn{border-color:#f59e0b}
-.toast.err{border-color:#ef4444}`;
-document.head.appendChild(style);
+function showFallback(seed){const msg=`No keywords generated. Use this elite ChatGPT prompt.`;toast(msg,'warn');copyElitePrompt(seed);}
