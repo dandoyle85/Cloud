@@ -9,7 +9,7 @@
 <body>
 <header>
   <h1>⚡ PowerHouse</h1>
-  <nav><a href="index.html">Home</a><a href="niches.html">Niches</a></nav>
+  <nav><a href="index.html">Home</a><a href="niches.html">Niches</a><a href="keywords.html">Keywords</a></nav>
   <div id="debugToggle">💀</div>
 </header>
 <div id="debugPanel"><pre id="debugLog"></pre></div>
@@ -18,7 +18,12 @@
   <section class="panel">
     <h2>Hot Niches</h2>
     <button id="refreshNichesBtn">🔄 Refresh Niches</button>
-    <div id="nicheGrid" class="grid"></div>
+    <div id="nicheGrid"></div>
+  </section>
+  <section class="panel">
+    <h3>Add Niche</h3>
+    <input id="nicheInput" placeholder="e.g. Drone Mapping">
+    <button id="addNicheBtn">Add</button>
   </section>
 </main>
 

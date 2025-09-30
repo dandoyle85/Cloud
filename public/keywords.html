@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PowerHouse Dashboard</title>
+  <title>PowerHouse Keywords</title>
   <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
@@ -14,12 +14,20 @@
 </header>
 <div id="debugPanel"><pre id="debugLog"></pre></div>
 
-<main class="panel">
-  <h2>Welcome</h2>
-  <p>Phase 2.1.1 — Centered layout + polished flow.</p>
-  <p>Use Niches → Keywords → Content flow.</p>
+<main>
+  <section class="panel">
+    <h2>Validate Keywords</h2>
+    <label>Seed</label>
+    <input id="seed" placeholder="Type or select niche">
+    <button id="expandBtn">Expand + Save</button>
+  </section>
+  <section class="panel">
+    <h3>Keywords</h3>
+    <ul id="kwList"></ul>
+  </section>
 </main>
 
 <script src="assets/app.js"></script>
+<script src="assets/keywords.js"></script>
 </body>
 </html>
