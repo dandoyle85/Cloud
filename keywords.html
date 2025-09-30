@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PowerHouse Keywords</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <main class="dashboard tab active">
+    <h1>⚡ PowerHouse – Keywords</h1>
+
+    <section>
+      <h2>Expand Keywords</h2>
+      <label for="siteId">Site ID (UUID):</label>
+      <input id="siteId" placeholder="Enter Site ID">
+
+      <label for="seedSuggestions">Suggested Seeds:</label>
+      <select id="seedSuggestions">
+        <option value="">-- Suggested Seeds --</option>
+      </select>
+
+      <input id="seed" placeholder="Or type your own" style="margin-top:12px;">
+      <button id="expandBtn">Expand + Save</button>
+    </section>
+
+    <section>
+      <h2>Keywords</h2>
+      <table id="keywordTable">
+        <thead>
+          <tr>
+            <th>Keyword</th>
+            <th>Source</th>
+            <th>Score</th>
+            <th>Titles</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>💀 Debug Log</h2>
+      <pre id="debugLog"></pre>
+    </section>
+  </main>
+  <script src="assets/app.js"></script>
+  <script src="assets/keywords.js"></script>
+</body>
+</html>
