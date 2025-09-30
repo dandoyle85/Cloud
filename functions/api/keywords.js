@@ -1,49 +1,79 @@
-if (method === 'POST') {
-  const body = await request.json();
-  const { site_id, keywords, seed } = body;
-  if (!site_id) return json({ error: 'site_id required' }, 400);
+export async function onRequestPost(context) {
+  try {
+    const body = await context.request.json();
+    const { site_id, keywords, seed } = body;
 
-  let collected = [];
+    if (!site_id) {
+      return new Response(JSON.stringify({ error: "site_id required" }), { status: 400 });
+    }
 
-  // Seed mode
-  if (seed) {
-    const q = encodeURIComponent(seed);
+    let collected = [];
 
-    // Google autocomplete
-    const g = await fetch(`https://suggestqueries.google.com/complete/search?client=firefox&q=${q}`).then(r=>r.json()).catch(()=>null);
-    const gList = Array.isArray(g) ? g[1] : [];
+    // Seed Mode expansion
+    if (seed) {
+      const q = encodeURIComponent(seed);
 
-    // YouTube autocomplete
-    const yt = await fetch(`https://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=${q}`).then(r=>r.json()).catch(()=>null);
-    const ytList = Array.isArray(yt) ? yt[1] : [];
+      // Google Autocomplete
+      let gList = [];
+      try {
+        const g = await fetch(`https://suggestqueries.google.com/complete/search?client=firefox&q=${q}`)
+          .then(r => r.json());
+        if (Array.isArray(g)) gList = g[1];
+      } catch (e) {}
 
-    // Reddit search
-    const rd = await fetch(`https://www.reddit.com/search.json?q=${q}&sort=hot&limit=10`, { headers: { 'User-Agent': 'Mozilla/5.0' }}).then(r=>r.json()).catch(()=>null);
-    const rdList = (rd?.data?.children || []).map(p => p.data?.title || "").filter(Boolean);
+      // YouTube Autocomplete
+      let ytList = [];
+      try {
+        const yt = await fetch(`https://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=${q}`)
+          .then(r => r.json());
+        if (Array.isArray(yt)) ytList = yt[1];
+      } catch (e) {}
 
-    collected = [...gList, ...ytList, ...rdList].map(s => String(s).trim()).filter(Boolean);
+      // Reddit Hot Posts
+      let rdList = [];
+      try {
+        const rd = await fetch(`https://www.reddit.com/search.json?q=${q}&sort=hot&limit=10`, {
+          headers: { "User-Agent": "Mozilla/5.0" }
+        }).then(r => r.json());
+        rdList = (rd?.data?.children || []).map(p => p.data?.title || "").filter(Boolean);
+      } catch (e) {}
+
+      collected = [...gList, ...ytList, ...rdList];
+    }
+
+    // Manual keywords
+    if (Array.isArray(keywords)) {
+      collected = [...collected, ...keywords];
+    }
+
+    if (!collected.length) {
+      return new Response(JSON.stringify({ error: "No keywords generated" }), { status: 400 });
+    }
+
+    // Save into Supabase
+    const results = [];
+    for (const k of collected) {
+      const res = await fetch(`${context.env.SUPABASE_URL}/rest/v1/keywords`, {
+        method: "POST",
+        headers: {
+          apikey: context.env.SUPABASE_SERVICE_KEY,
+          Authorization: `Bearer ${context.env.SUPABASE_SERVICE_KEY}`,
+          "Content-Type": "application/json",
+          Prefer: "return=representation"
+        },
+        body: JSON.stringify({
+          site_id,
+          keyword: k,
+          created_at: new Date().toISOString()
+        })
+      });
+
+      const data = await res.json();
+      if (Array.isArray(data) && data[0]) results.push(data[0]);
+    }
+
+    return new Response(JSON.stringify({ inserted: results.length, keywords: results }), { status: 200 });
+  } catch (err) {
+    return new Response(JSON.stringify({ error: err.message }), { status: 500 });
   }
-
-  // Manual keywords
-  if (Array.isArray(keywords)) {
-    collected = [...collected, ...keywords];
-  }
-
-  if (!collected.length) {
-    return json({ error: 'No keywords generated' }, 400);
-  }
-
-  // Insert into Supabase
-  const results = [];
-  for (const k of collected) {
-    const ins = await rest('keywords', {
-      method: 'POST',
-      headers: { Prefer: 'resolution=merge-duplicates,return=representation' },
-      body: JSON.stringify({ site_id, keyword: k, created_at: new Date().toISOString() })
-    });
-    const out = await ins.json();
-    if (Array.isArray(out) && out[0]) results.push(out[0]);
-  }
-
-  return json({ inserted: results.length, keywords: results });
 }
