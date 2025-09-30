@@ -1,1 +1,5 @@
-window.addEventListener('DOMContentLoaded',()=>{document.getElementById('debugToggle')?.addEventListener('click',()=>document.getElementById('debugPanel').classList.toggle('show'));});
+
+window.addEventListener("DOMContentLoaded", ()=>{
+  const t=document.getElementById("debugToggle");
+  if(t) t.addEventListener("click", ()=> document.getElementById("debugPanel").classList.toggle("show"));
+});
