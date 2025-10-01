@@ -2,9 +2,9 @@
 const asMicros=v=>(typeof v==='number'?Math.round(v/10000)/100:null);
 async function getAccessToken(env){
   const body=new URLSearchParams({
-    client_id:env.GOOGLE_ADS_CLIENT_ID,
-    client_secret:env.GOOGLE_ADS_CLIENT_SECRET,
-    refresh_token:env.GOOGLE_ADS_REFRESH_TOKEN,
+    client_id:env.GADS_CLIENT_ID,
+    client_secret:env.GADS_CLIENT_SECRET,
+    refresh_token:env.GADS_REFRESH_TOKEN,
     grant_type:"refresh_token"
   });
   const r=await fetch("https://oauth2.googleapis.com/token",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body});
@@ -15,12 +15,13 @@ export async function onRequestPost({request,env}){
     const {seed}=await request.json();
     if(!seed) return new Response(JSON.stringify({error:"Seed required"}),{status:400});
     const at=await getAccessToken(env);
-    const ep=`https://googleads.googleapis.com/${env.GOOGLE_ADS_VERSION||"v16"}/customers/${env.GOOGLE_ADS_CUSTOMER_ID}:generateKeywordIdeas`;
-    const body={language:`languageConstants/${env.GOOGLE_ADS_LANG||"1000"}`,geoTargetConstants:[`geoTargetConstants/${env.GOOGLE_ADS_GEO||"2840"}`],keywordSeed:{keywords:[seed]}};
-    const r=await fetch(ep,{method:"POST",headers:{"Authorization":`Bearer ${at}`,"developer-token":env.GOOGLE_ADS_DEV_TOKEN,"login-customer-id":env.GOOGLE_ADS_LOGIN_CUSTOMER_ID,"Content-Type":"application/json"},body:JSON.stringify(body)});
+    const ep=`https://googleads.googleapis.com/${env.GADS_VERSION||"v16"}/customers/${env.GADS_CUSTOMER_ID}:generateKeywordIdeas`;
+    const body={language:`languageConstants/${env.GADS_LANG||"1000"}`,geoTargetConstants:[`geoTargetConstants/${env.GADS_GEO||"2840"}`],keywordSeed:{keywords:[seed]}};
+    const r=await fetch(ep,{method:"POST",headers:{"Authorization":`Bearer ${at}`,"developer-token":env.GADS_DEVELOPER_TOKEN,"login-customer-id":env.GADS_LOGIN_CUSTOMER_ID,"Content-Type":"application/json"},body:JSON.stringify(body)});
     let text=await r.text(); let parsed; try{parsed=JSON.parse(text);}catch{parsed={raw:text};}
+    console.log("🔍 Google Ads raw response:", parsed);
     if(!r.ok){return new Response(JSON.stringify({error:"google_ads_error",details:parsed}),{status:r.status});}
     const ideas=(parsed.results||[]).map(x=>{const m=x.keywordIdeaMetrics||{};return{keyword:x.text,volume:m.avgMonthlySearches??null,competition:m.competition??null,cpc_low:asMicros(m.lowTopOfPageBidMicros),cpc_high:asMicros(m.highTopOfPageBidMicros)}});
     return new Response(JSON.stringify({ideas}),{headers:{"Content-Type":"application/json"}});
-  }catch(e){return new Response(JSON.stringify({error:e.message}),{status:500});}
+  }catch(e){console.error("🚨 Backend error:",e);return new Response(JSON.stringify({error:e.message}),{status:500});}
 }
